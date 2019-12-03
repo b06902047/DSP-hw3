@@ -41,6 +41,7 @@ int main(int argc, char *argv[]){
     		strncpy(help,line+3*i,2);
     		dict[zhu].push_back(help);
 	   }
+       cout << dict.size() <<endl;
     }
     cout << dict.size() <<endl;
     map<char*, vector<char*>>::iterator iter;
