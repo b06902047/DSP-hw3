@@ -22,11 +22,11 @@ int main(int argc, char *argv[]){
 	int order=stoi(argv[8]);
 	Vocab voc;
     Ngram lm( voc, order );
-    FILE lmFile( lmodel, "r" );
+    File lmFile( lmodel, "r" );
     lm.read(lmFile);
     lmFile.close();
     map<char*,vector<char*>> dict;
-    File *mapping=fopen(ztob,"r");
+    FILE *mapping=fopen(ztob,"r");
     char zbmap;
     char line[1024];
     while(!feof(mapping)){
