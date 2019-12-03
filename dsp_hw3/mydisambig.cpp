@@ -3,6 +3,8 @@
 #include<stdlib.h>
 #include <fstream>
 #include<string>
+#include <malloc.h>
+#include <memory.h>
 #include <map>
 #include <vector>
 #include"File.h"
@@ -31,12 +33,11 @@ int main(int argc, char *argv[]){
     char zbmap;
     while(!feof(mapping)){
     	fgets(line, sizeof(line), mapping);
-    	char zhu[3];
-    	char word[3];
+    	char* zhu=new char[3];
     	zhu[2]='\0';
     	strncpy(zhu,line,2);
 	   for(int i=1;i<strlen(line)/3;i++){
-    	   	char help[3];
+    	   	char* help=new char[3];
     		help[2]='\0';
     		strncpy(help,line+3*i,2);
     		dict[zhu].push_back(help);
@@ -44,6 +45,7 @@ int main(int argc, char *argv[]){
        cout << dict.size() << endl;
        cout<< dict.begin()->first << endl;
     }
+    flose(mapping);
     cout << dict.size() <<endl;
     map<char*, vector<char*>>::iterator iter;
     for(iter = dict.begin(); iter != dict.end(); iter++){
