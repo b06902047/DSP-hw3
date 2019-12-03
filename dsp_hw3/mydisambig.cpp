@@ -36,23 +36,24 @@ int main(int argc, char *argv[]){
     	char* zhu=new char[3];
     	zhu[2]='\0';
     	strncpy(zhu,line,2);
-        printf("%p\n" ,zhu);
+        //printf("%p\n" ,zhu);
 	   for(int i=1;i<strlen(line)/3;i++){
     	   	char* help=new char[3];
     		help[2]='\0';
     		strncpy(help,line+3*i,2);
     		dict[zhu].push_back(help);
 	   }
-       cout << dict.size() << endl;
-       cout<< dict.begin()->first << endl;
+       //cout << dict.size() << endl;
+       //cout<< dict.begin()->first << endl;
     }
-    flose(mapping);
+    fclose(mapping);
     cout << dict.size() <<endl;
     map<char*, vector<char*>>::iterator iter;
-    for(iter = dict.begin(); iter != dict.end(); iter++){
+    /*for(iter = dict.begin(); iter != dict.end(); iter++){
 	   cout<< iter->first << endl;
+	   cout<< iter->second[0]<<endl;
 	}
-
+	*/
 	return 0;
 }
 
