@@ -14,7 +14,7 @@ using namespace std;
 char seg_file[256];
 char ztob[256];
 char lmodel[256];
-char line[2048];
+char line[10000];
 map<char*,vector<char*>> dict;
 
 int main(int argc, char *argv[]){
