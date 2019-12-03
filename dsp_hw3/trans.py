@@ -11,8 +11,8 @@ def main():
 'ㄢ':[],'ㄣ':[],'ㄤ':[],'ㄥ':[],'ㄦ':[]}
 	inputfile=sys.argv[1]
 	outputfile=sys.argv[2]
-	inFile = codecs.open("Big5-ZhuYin.map", "rb", "big5",'replace')
-	outFile = codecs.open("ZhuYin-Big5.map", "wb","big5",'replace')
+	inFile = codecs.open("Big5-ZhuYin.map", "rb", "big5-hkscs",'replace')
+	outFile = codecs.open("ZhuYin-Big5.map", "wb","big5-hkscs",'replace')
 	content=inFile.readlines()#unicode
 	inFile.close()
 	for j in content:
@@ -32,7 +32,7 @@ def main():
 			helpme="{} {}\n".format(str(j).decode('string_escape'),str(j).decode('string_escape')).decode("utf-8")
 			outFile.write(helpme)
 	
-	inFile = codecs.open("ZhuYin-Big5.map", "rb","big5",'replace')
+	#inFile = codecs.open("ZhuYin-Big5.map", "rb","big5-hkscs",'replace')
 	'''
 	for i in range(1000):
 		content=inFile.readline()#unicode
