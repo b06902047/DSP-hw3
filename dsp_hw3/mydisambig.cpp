@@ -4,6 +4,7 @@
 #include <fstream>
 #include<string>
 #include <map>
+#include <vector>
 #include"File.h"
 #include"Ngram.h"
 #include"Vocab.h"
@@ -16,16 +17,24 @@ char model[256];
 
 int main(int argc, char *argv[]){
 	strcpy(seg_file, argv[2]);
-	strcpy(mapping, argv[4]);
+	strcpy(ztob, argv[4]);
 	strcpy(lmodel, argv[6]);
-	int order=stoi(argv[6]);
+	int order=stoi(argv[8]);
 	Vocab voc;
     Ngram lm( voc, order );
     File lmFile( lmodel, "r" );
     lm.read(lmFile);
     lmFile.close();
-    map<string, vector<string>> dict;
-    
+    map<string,vector<string>> dict;
+    File *mapping=fopen(ztob,"r");
+    char zbmap;
+    char line[1024];
+    while(!feof(mapping)){
+    	fgets(line, sizeof(line), mapping);
+    	char zhu[2];
+    	char word[2];
+    }
+
 
 	return 0;
 }
