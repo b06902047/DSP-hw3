@@ -9,10 +9,8 @@ def main():
 '£~':[],'£¡':[],'£¢':[],'££':[],'£¤':[],'£¥':[],'£¦':[],'£§':[],'£¨':[],'£©':[],'£ª':[],\
 '£¸':[],'£¹':[],'£º':[],'£«':[],'£¬':[],'£­':[],'£®':[],'£¯':[],'£°':[],'£±':[],'£²':[],\
 '£³':[],'£´':[],'£µ':[],'£¶':[],'£·':[]}
-	inputfile=sys.argv[1]
-	outputfile=sys.argv[2]
-	inFile = codecs.open("Big5-ZhuYin.map", "rb", "big5-hkscs",'replace')
-	outFile = codecs.open("ZhuYin-Big5.map", "wb","big5-hkscs",'replace')
+	inFile = codecs.open(sys.argv[1], "rb", "big5-hkscs",'replace')
+	outFile = codecs.open(sys.argv[2], "wb","big5-hkscs",'replace')
 	content=inFile.readlines()#unicode
 	inFile.close()
 	for j in content:
