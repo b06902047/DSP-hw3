@@ -15,6 +15,7 @@ char seg_file[256];
 char ztob[256];
 char lmodel[256];
 char line[2048];
+map<char*,vector<char*>> dict;
 
 int main(int argc, char *argv[]){
 	strcpy(seg_file, argv[2]);
@@ -26,7 +27,6 @@ int main(int argc, char *argv[]){
     File lmFile( lmodel, "r" );
     lm.read(lmFile);
     lmFile.close();
-    map<char*,vector<char*>> dict;
     FILE *mapping=fopen(ztob,"r");
     char zbmap;
     while(!feof(mapping)){
@@ -37,18 +37,23 @@ int main(int argc, char *argv[]){
     	strncpy(zhu,line,2);
     	vector<char*> vec;
     	dict.insert(make_pair(zhu, vector<char*>(1,zhu)));
-    	dict[zhu].erase( dict[zhu].begin(), dict[zhu].end() );
-    	for(int i=1;i<sizeof(line)/2;i++){
+    	dict[zhu].clear();
+//	cout << strlen(line)<< line; 
+//    	break;
+	for(int i=1;i<strlen(line)/3;i++){
     		char help[3];
     		help[2]='\0';
     		strncpy(help,line+3*i,2);
     		dict[zhu].push_back(help);
-    	}
+		//if(i==1)cout<< "try" <<help<<endl;
+//    		cout << dict[zhu].front() <<endl;
+	}
+	//cout << dict[zhu].front() <<endl;
     }
     map<char*, vector<char*>>::iterator iter;
-    cout << dict.end()-dict.begin()<<endl;
-    for(iter = dict.begin(); iter != dict.end(); iter++)
-        cout<< iter->first << endl;
+    for(iter = dict.begin(); iter != dict.end(); iter++){
+	cout<< iter->first << endl;
+	}
 
 	return 0;
 }
