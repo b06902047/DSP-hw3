@@ -36,6 +36,7 @@ int main(int argc, char *argv[]){
     	char* zhu=new char[3];
     	zhu[2]='\0';
     	strncpy(zhu,line,2);
+        printf("%p\n" ,zhu);
 	   for(int i=1;i<strlen(line)/3;i++){
     	   	char* help=new char[3];
     		help[2]='\0';
