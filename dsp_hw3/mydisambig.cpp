@@ -36,7 +36,7 @@ int main(int argc, char *argv[]){
     	zhu[2]='\0';
     	strncpy(zhu,line,2);
     	vector<char*> vec;
-    	dict.insert(make_pair(zhu, vector<char*>(1,"ko")));
+    	dict.insert(make_pair(zhu, vector<char*>(1,zhu)));
     	dict[zhu].erase( dict[zhu].begin(), dict[zhu].end() );
     	for(int i=1;i<sizeof(line)/2;i++){
     		char help[3];
@@ -46,8 +46,9 @@ int main(int argc, char *argv[]){
     	}
     }
     map<char*, vector<char*>>::iterator iter;
+    cout << dict.end()-dict.begin()<<endl;
     for(iter = dict.begin(); iter != dict.end(); iter++)
-            cout<< iter->first << endl;
+        cout<< iter->first << endl;
 
 	return 0;
 }
