@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-#coding=big-5
+#coding=Big5
 from __future__ import print_function
 import codecs, sys
 import json
 
 def main():
-	dic ={'ã„…':[],'ã„†':[],'ã„‡':[],'ã„ˆ':[],'ã„‰':[],'ã„Š':[],'ã„‹':[],'ã„Œ':[],'ã„':[],'ã„Ž':[],\
-'ã„':[],'ã„':[],'ã„‘':[],'ã„’':[],'ã„“':[],'ã„”':[],'ã„•':[],'ã„–':[],'ã„—':[],'ã„˜':[],'ã„™':[],\
-'ã„§':[],'ã„¨':[],'ã„©':[],'ã„š':[],'ã„›':[],'ã„œ':[],'ã„':[],'ã„ž':[],'ã„Ÿ':[],'ã„ ':[],'ã„¡':[],\
-'ã„¢':[],'ã„£':[],'ã„¤':[],'ã„¥':[],'ã„¦':[]}
+	dic ={'£t':[],'£u':[],'£v':[],'£w':[],'£x':[],'£y':[],'£z':[],'£{':[],'£|':[],'£}':[],\
+'£~':[],'£¡':[],'£¢':[],'££':[],'£¤':[],'£¥':[],'£¦':[],'£§':[],'£¨':[],'£©':[],'£ª':[],\
+'£¸':[],'£¹':[],'£º':[],'£«':[],'£¬':[],'£­':[],'£®':[],'£¯':[],'£°':[],'£±':[],'£²':[],\
+'£³':[],'£´':[],'£µ':[],'£¶':[],'£·':[]}
 	inputfile=sys.argv[1]
 	outputfile=sys.argv[2]
 	inFile = codecs.open("Big5-ZhuYin.map", "rb", "big5-hkscs",'replace')
@@ -17,19 +17,19 @@ def main():
 	inFile.close()
 	for j in content:
 		j=j.split(" ")
-		j0=j[0]	#j[0]=>å­—
-		j1=j[1].split("/")	#j[1]=>[ã„ã„§ã„_, ã„’ã„§ã„ËŠ]
+		j0=j[0]	#j[0]=>¦r
+		j1=j[1].split("/")	#j[1]=>[£¡£¸£®_, £££¸£®£½]
 		for k in j1:
-			dic[k[0].encode("big5-hkscs")].append(j0.encode("big5-hkscs"))
+			dic[k[0]].append(j0)
 	for i in dic.keys():
-		helpme="{}".format(str(i).decode('string_escape')).decode("big5-hkscs")
+		helpme="{}".format(i)
 		outFile.write(helpme)
 		for j in dic[i]:
-			helpme=" {}".format(str(j).decode('string_escape')).decode("big5-hkscs")
+			helpme=" {}".format(j)
 			outFile.write(helpme)
 		outFile.write('\n')
 		for j in dic[i]:
-			helpme="{} {}\n".format(str(j).decode('string_escape'),str(j).decode('string_escape')).decode("big5-hkscs")
+			helpme="{} {}\n".format(j,j)
 			outFile.write(helpme)
 	
 	#inFile = codecs.open("ZhuYin-Big5.map", "rb","big5-hkscs",'replace')
