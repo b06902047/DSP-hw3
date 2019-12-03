@@ -44,7 +44,9 @@ int main(int argc, char *argv[]){
     		dict[zhu].push_back(help);
     	}
     }
-
+    map<char*, vector<char*>>::iterator iter;
+    for(iter = dict.begin(); iter != dict.end(); iter++)
+            	cout<<iter->first<<" "<<iter->second<<endl;
 
 	return 0;
 }
