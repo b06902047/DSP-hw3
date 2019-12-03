@@ -46,7 +46,7 @@ int main(int argc, char *argv[]){
     }
     map<char*, vector<char*>>::iterator iter;
     for(iter = dict.begin(); iter != dict.end(); iter++)
-            	cout<<iter->first<<" "<<iter->second<<endl;
+            cout<< iter->first << endl;
 
 	return 0;
 }
