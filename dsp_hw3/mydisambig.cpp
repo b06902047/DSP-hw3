@@ -49,11 +49,11 @@ int main(int argc, char *argv[]){
     fclose(mapping);
     cout << dict.size() <<endl;
     map<char*, vector<char*>>::iterator iter;
-    /*for(iter = dict.begin(); iter != dict.end(); iter++){
+    for(iter = dict.begin(); iter != dict.end(); ++iter){
 	   cout<< iter->first << endl;
 	   cout<< iter->second[0]<<endl;
 	}
-	*/
+	
 	return 0;
 }
 
