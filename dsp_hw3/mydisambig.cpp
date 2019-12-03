@@ -35,24 +35,17 @@ int main(int argc, char *argv[]){
     	char word[3];
     	zhu[2]='\0';
     	strncpy(zhu,line,2);
-    	vector<char*> vec;
-    	dict.insert(make_pair(zhu, vector<char*>(1,zhu)));
-    	dict[zhu].clear();
-//	cout << strlen(line)<< line; 
-//    	break;
-	for(int i=1;i<strlen(line)/3;i++){
-    		char help[3];
+	   for(int i=1;i<strlen(line)/3;i++){
+    	   	char help[3];
     		help[2]='\0';
     		strncpy(help,line+3*i,2);
     		dict[zhu].push_back(help);
-		//if(i==1)cout<< "try" <<help<<endl;
-//    		cout << dict[zhu].front() <<endl;
-	}
-	//cout << dict[zhu].front() <<endl;
+	   }
     }
+    cout << dict.size() <<endl;
     map<char*, vector<char*>>::iterator iter;
     for(iter = dict.begin(); iter != dict.end(); iter++){
-	cout<< iter->first << endl;
+	   cout<< iter->first << endl;
 	}
 
 	return 0;
