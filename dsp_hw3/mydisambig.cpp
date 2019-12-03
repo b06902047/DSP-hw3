@@ -14,6 +14,7 @@ using namespace std;
 char seg_file[256];
 char ztob[256];
 char lmodel[256];
+char line[2048];
 
 int main(int argc, char *argv[]){
 	strcpy(seg_file, argv[2]);
@@ -28,7 +29,6 @@ int main(int argc, char *argv[]){
     map<char*,vector<char*>> dict;
     FILE *mapping=fopen(ztob,"r");
     char zbmap;
-    char line[1024];
     while(!feof(mapping)){
     	fgets(line, sizeof(line), mapping);
     	char zhu[3];
@@ -36,7 +36,7 @@ int main(int argc, char *argv[]){
     	zhu[2]='\0';
     	strncpy(zhu,line,2);
     	vector<char*> vec;
-    	dict.insert(pair<char*, vector<char*>>(zhu, vec));
+    	dict.insert(make_pair(zhu, vector<char*>));
     	for(int i=1;i<sizeof(line)/2;i++){
     		char help[3];
     		help[2]='\0';
