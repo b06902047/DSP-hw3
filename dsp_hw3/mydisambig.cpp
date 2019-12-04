@@ -3,8 +3,7 @@
 #include<stdlib.h>
 #include <fstream>
 #include<string>
-#include <malloc.h>
-#include <memory.h>
+#include<algorithm>
 #include <map>
 #include <vector>
 #include"File.h"
@@ -17,39 +16,25 @@ char seg_file[256];
 char ztob[256];
 char lmodel[256];
 int order;
-char line[15000];
-char problem[15000];
+string line;
+string problem;
 Vocab voc;
 Ngram lm(voc,order);
 
-map<char*,vector<char*>> dict;
-char* strtrimc(char* withspace){
-    int num=0;
-    char* nospace=new char[strlen(withspace)];
-    for(int i=0;i<strlen(withspace);i++){
-        if(withspace[i]!=' '){
-            strncpy(&nospace[num],&withspace[i],1);
-            num++;
-        }
-    }
-    nospace[num]='\0';
-    return nospace;
-}
+map<string,vector<string>> dict;
 void Dealdiction(){
-    FILE *mapping=fopen(ztob,"r");
-    while(!feof(mapping)){//deal with map
-        fgets(line, sizeof(line), mapping);
-        char* zhu=new char[3];
-        zhu[2]='\0';
-        strncpy(zhu,line,2);
+    ifstream mapping;
+    mapping.open(ztob);
+    while(getline (mapping, line)){//deal with map
+        string zhu;
+        zhu.assign(line.begin(),line.begin()+2);
        for(int i=1;i<strlen(line)/3;i++){
-            char* help=new char[3];
-            help[2]='\0';
-            strncpy(help,line+3*i,2);
-            dict[zhu].push_back(help);
+        string help;
+        help.assign(line.begin()+3*i,line.begin()+3*i+2)
+        dict[zhu].push_back(help);
        }
     }
-    fclose(mapping);
+    mapping.close();
 }
 double probab(char* word1,char* word2){//P(word2|word1)
     VocabIndex wid1 = voc.getIndex(word1);
@@ -71,37 +56,24 @@ int main(int argc, char *argv[]){
     lm.read(lmFile);
     lmFile.close();
     Dealdiction();
-    //map<char*, vector<char*>>::iterator iter;
-    FILE* test_data=fopen(seg_file,"r");//deal with each line
-    while(!feof(test_data)){//處理每一行
+    ifstream test_data;
+    test_data.open(seg_file);//deal with each line
+    while(getline(testdata,line)){//處理每一行
         double viter[15000][15000]={{0.0}};
         int trace[15000][15000]={{0}};
-        char* c =fgets(line, sizeof(line), test_data);
-        strcpy(problem,strtrimc(line));//problem=>沒有空白的string
-        if(problem[strlen(line)-1]=='\n') problem[strlen(line)-1]='\0';
-        char word[3];word[2]='\0';
-        strncpy(word,line,2);
-        for(int i=0;i<dict[word].size();i++){
-            viter[i][0]=probab("<s>",dict[word][i]);
-        }
-        for(int i=1;i<strlen(line)/2;i++){
-            char word[3];word[2]='\0';
-            strncpy(word,line+i*2,2);
+        auto itor = remove_if(line.begin(), line.end(), ::isspace);
+        line.erase(itor, str.end());
+        string word;
+        word.assign(line.begin(),line.begin()+2);
+        for(int i=0;i<dict[word].size();i++)
+            viter[i][0]=probab("<s>",dict[word][i].c_str());
+        string prev(word);
+        for(int i=1;i<line.size()/2;i++){
+            
         }
     }
 	
 	return 0;
 }
-
-/*
- if(wid == Vocab_None) {
-        printf("No word with wid = %d\n", wid);
-        printf("where Vocab_None is %d\n", Vocab_None);
-    }
-
-    wid = voc.getIndex("患者");
-    VocabIndex context[] = {voc.getIndex("癮") , voc.getIndex("毒"), Vocab_None};
-    printf("log Prob(患者|毒-癮) = %f\n", lm.wordProb(wid, context));
-*/
 
 
