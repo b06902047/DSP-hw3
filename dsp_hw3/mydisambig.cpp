@@ -15,7 +15,7 @@ using namespace std;
 char seg_file[256];
 char ztob[256];
 char lmodel[256];
-int order;
+int order=2;
 string line;
 string problem;
 Vocab voc;
