@@ -45,7 +45,6 @@ double probab(const char* word1,const char* word2){//P(word2|word1)
         wid2= voc.getIndex(Vocab_Unknown);
     VocabIndex context[] = {wid1, Vocab_None};
     return lm.wordProb(wid2, context);
-
 }
 int main(int argc, char *argv[]){
 	strcpy(seg_file, argv[2]);
@@ -87,7 +86,7 @@ int main(int argc, char *argv[]){
         string prev(word);
         double max=-1;int maxdex=-1;
         for(int i=0;i<dict[prev].size();i++){
-            double now=probab(dict[prev][i].c_str(),"</s>");
+            double now=probab(dict[prev][i].c_str(),"</s>")+viter[i][line.size()/2-1];
             if(now>max){
                 max=now;
                 maxdex=i;
@@ -104,7 +103,7 @@ int main(int argc, char *argv[]){
         cout << "<s> ";
         for(int i=line.size()/2-1;i>=0;i--)
             cout << answer[i] <<" ";
-        cout << "</s>";
+        cout << "</s>"<<endl;
     }
 	
 	return 0;
