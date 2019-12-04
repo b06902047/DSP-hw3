@@ -25,8 +25,8 @@ Ngram lm(voc,order);
 map<char*,vector<char*>> dict;
 char* strtrimc(char* withspace){
     int num=0;
-    char* nospace[strlen(withspace)];
-    for(i=0;i<strlen(withspace);i++){
+    char nospace[strlen(withspace)];
+    for(int i=0;i<strlen(withspace);i++){
         if(withspace[i]!=' '){
             strncpy(&nospace[num],&withspace[i],1);
             num++;
