@@ -62,16 +62,16 @@ int main(int argc, char *argv[]){
     Dealdiction();
     //map<char*, vector<char*>>::iterator iter;
     FILE* test_data=fopen(seg_file,"r");//deal with each line
-    while(!feof(seg_file)){//處理每一行
+    while(!feof(test_data)){//處理每一行
         double viter[15000][15000]={{0.0}};
         int trace[15000][15000]={{0}};
-        fgets(line, sizeof(line), seg_file);
-        strcpy(problem,strtimc(line));//problem=>沒有空白的string
+        char* c =fgets(line, sizeof(line), test_data);
+        strcpy(problem,strtrimc(line));//problem=>沒有空白的string
         if(problem[strlen(line)-1]=='\n') problem[strlen(line)-1]='\0';
         char word[3];word[2]='\0';
         strncpy(word,line,2);
         for(int i=0;i<dict[word].size();i++){
-            delta[i][0]=probab("<s>",word);
+            viter[i][0]=probab("<s>",dict[word][i]);
         }
         for(int i=1;i<strlen(line)/2;i++){
             char word[3];word[2]='\0';
