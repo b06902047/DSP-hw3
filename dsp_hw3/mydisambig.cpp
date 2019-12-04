@@ -74,7 +74,7 @@ int main(int argc, char *argv[]){
                 double max=-1;
                 int maxdex=-1;
                 for(int k=0;k<dict[prev].size();k++){
-                    double now=probab(dict[word][j],dict[prev][k])+viter[k][i-1];//problem
+                    double now=probab(dict[word][j].c_str(),dict[prev][k].c_str())+viter[k][i-1];//problem
                     if(now>max){
                         max=now;
                         maxdex=k;
@@ -90,7 +90,7 @@ int main(int argc, char *argv[]){
             double now=probab(dict[prev][i].c_str(),"</s>");
             if(now>max){
                 max=now;
-                maxdex=k;
+                maxdex=i;
             }
         }
         vector<string> answer;
@@ -98,7 +98,7 @@ int main(int argc, char *argv[]){
         for(int i=line.size()/2-1;i>=0;i--){
             string help;
             help.assign(line.begin()+2*i,line.begin()+2*i+2);
-            answer.pushback(dict[help][index]);
+            answer.push_back(dict[help][index]);
             index=trace[index][i];
         }
         cout << "<s> ";
