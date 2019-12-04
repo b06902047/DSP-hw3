@@ -16,7 +16,9 @@ using namespace std;
 char seg_file[256];
 char ztob[256];
 char lmodel[256];
-char line[10000];
+char line[15000];
+char problem[15000];
+
 map<char*,vector<char*>> dict;
 
 int main(int argc, char *argv[]){
@@ -30,29 +32,27 @@ int main(int argc, char *argv[]){
     lm.read(lmFile);
     lmFile.close();
     FILE *mapping=fopen(ztob,"r");
-    char zbmap;
-    while(!feof(mapping)){
+    while(!feof(mapping)){//deal with map
     	fgets(line, sizeof(line), mapping);
     	char* zhu=new char[3];
     	zhu[2]='\0';
     	strncpy(zhu,line,2);
-        //printf("%p\n" ,zhu);
 	   for(int i=1;i<strlen(line)/3;i++){
     	   	char* help=new char[3];
     		help[2]='\0';
     		strncpy(help,line+3*i,2);
     		dict[zhu].push_back(help);
 	   }
-       //cout << dict.size() << endl;
-       //cout<< dict.begin()->first << endl;
     }
     fclose(mapping);
-    cout << dict.size() <<endl;
-    map<char*, vector<char*>>::iterator iter;
-    for(iter = dict.begin(); iter != dict.end(); ++iter){
-	   cout<< iter->first << endl;
-	   cout<< iter->second[0]<<endl;
-	}
+    //map<char*, vector<char*>>::iterator iter;
+    FILE* test_data=fopen(seg_file,"r");//deal with each line
+    while(!feof(seg_file)){//處理每一行
+        double viter[15000][15000]={{0.0}};
+        fgets(line, sizeof(line), seg_file);
+        strcpy(problem,strtimc(line));//problem=>沒有空白的string
+
+    }
 	
 	return 0;
 }
