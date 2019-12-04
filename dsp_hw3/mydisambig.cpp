@@ -15,11 +15,10 @@ using namespace std;
 char seg_file[256];
 char ztob[256];
 char lmodel[256];
-int order=2;
+int order;
 string line;
 string problem;
-Vocab voc;
-Ngram lm(voc,order);
+
 
 map<string,vector<string>> dict;
 void Dealdiction(){
@@ -36,7 +35,7 @@ void Dealdiction(){
     }
     mapping.close();
 }
-double probab(const char* word1,const char* word2){//P(word2|word1)
+double probab(const char* word1,const char* word2,Ngram &lm, Vocab &voc){//P(word2|word1)
     VocabIndex wid1 = voc.getIndex(word1);
     if(wid1 == Vocab_None) 
         wid1= voc.getIndex(Vocab_Unknown);
@@ -51,6 +50,8 @@ int main(int argc, char *argv[]){
 	strcpy(ztob, argv[4]);
 	strcpy(lmodel, argv[6]);
 	order=stoi(argv[8]);
+    Vocab voc;
+    Ngram lm(voc,order);
     File lmFile( lmodel, "r" );
     lm.read(lmFile);
     lmFile.close();
@@ -65,7 +66,7 @@ int main(int argc, char *argv[]){
         string word;
         word.assign(line.begin(),line.begin()+2);
         for(int i=0;i<dict[word].size();i++)
-            viter[i][0]=probab("<s>",dict[word][i].c_str());//P(第0個字｜<s>)
+            viter[i][0]=probab("<s>",dict[word][i].c_str(),lm,voc);//P(第0個字｜<s>)
         for(int i=1;i<line.size()/2;i++){//橫軸
             string prev(word);
             word.assign(line.begin()+2*i,line.begin()+2*i+2);
@@ -73,7 +74,7 @@ int main(int argc, char *argv[]){
                 double maxprob=-1;
                 int maxdex=-1;
                 for(int k=0;k<dict[prev].size();k++){
-                    double now=probab(dict[word][j].c_str(),dict[prev][k].c_str())+viter[k][i-1];//problem
+                    double now=probab(dict[word][j].c_str(),dict[prev][k].c_str(),lm,voc)+viter[k][i-1];//problem
                     if(now>maxprob){
                         maxprob=now;
                         maxdex=k;
@@ -86,7 +87,7 @@ int main(int argc, char *argv[]){
         string prev(word);
         double maxprob=-1;int maxdex=-1;
         for(int i=0;i<dict[prev].size();i++){
-            double now=probab(dict[prev][i].c_str(),"</s>")+viter[i][line.size()/2-1];
+            double now=probab(dict[prev][i].c_str(),"</s>",lm,voc)+viter[i][line.size()/2-1];
             if(now>maxprob){
                 maxprob=now;
                 maxdex=i;
