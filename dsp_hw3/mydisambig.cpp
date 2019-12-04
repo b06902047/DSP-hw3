@@ -32,6 +32,7 @@ char* strtrimc(char* withspace){
             num++;
         }
     }
+    nospace[num]='\0';
     return nospace;
 }
 void Dealdiction(){
