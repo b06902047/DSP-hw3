@@ -70,25 +70,25 @@ int main(int argc, char *argv[]){
             string prev(word);
             word.assign(line.begin()+2*i,line.begin()+2*i+2);
             for(int j=0;j<dict[word].size();j++){//縱軸
-                double max=-1;
+                double maxprob=-1;
                 int maxdex=-1;
                 for(int k=0;k<dict[prev].size();k++){
                     double now=probab(dict[word][j].c_str(),dict[prev][k].c_str())+viter[k][i-1];//problem
-                    if(now>max){
-                        max=now;
+                    if(now>maxprob){
+                        maxprob=now;
                         maxdex=k;
                     }
                 }
-                viter[j][i]=max;
+                viter[j][i]=maxprob;
                 trace[j][i]=maxdex;
             }
         }
         string prev(word);
-        double max=-1;int maxdex=-1;
+        double maxprob=-1;int maxdex=-1;
         for(int i=0;i<dict[prev].size();i++){
             double now=probab(dict[prev][i].c_str(),"</s>")+viter[i][line.size()/2-1];
-            if(now>max){
-                max=now;
+            if(now>maxprob){
+                maxprob=now;
                 maxdex=i;
             }
         }
