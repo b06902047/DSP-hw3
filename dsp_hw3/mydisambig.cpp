@@ -28,15 +28,15 @@ void Dealdiction(){
     while(getline (mapping, line)){//deal with map
         string zhu;
         zhu.assign(line.begin(),line.begin()+2);
-       for(int i=1;i<strlen(line)/3;i++){
+       for(int i=1;i<line.size()/3;i++){
         string help;
-        help.assign(line.begin()+3*i,line.begin()+3*i+2)
+        help.assign(line.begin()+3*i,line.begin()+3*i+2);
         dict[zhu].push_back(help);
        }
     }
     mapping.close();
 }
-double probab(char* word1,char* word2){//P(word2|word1)
+double probab(const char* word1,const char* word2){//P(word2|word1)
     VocabIndex wid1 = voc.getIndex(word1);
     if(wid1 == Vocab_None) 
         wid1= voc.getIndex(Vocab_Unknown);
@@ -58,11 +58,11 @@ int main(int argc, char *argv[]){
     Dealdiction();
     ifstream test_data;
     test_data.open(seg_file);//deal with each line
-    while(getline(testdata,line)){//處理每一行
+    while(getline(test_data,line)){//處理每一行
         double viter[15000][15000]={{0.0}};
         int trace[15000][15000]={{0}};
         auto itor = remove_if(line.begin(), line.end(), ::isspace);
-        line.erase(itor, str.end());
+        line.erase(itor, line.end());
         string word;
         word.assign(line.begin(),line.begin()+2);
         for(int i=0;i<dict[word].size();i++)
