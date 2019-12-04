@@ -5,6 +5,7 @@
 #include<string>
 #include <malloc.h>
 #include <memory.h>
+#include <publib.h>
 #include <map>
 #include <vector>
 #include"File.h"
@@ -23,7 +24,17 @@ Vocab voc;
 Ngram lm(voc,order);
 
 map<char*,vector<char*>> dict;
-
+char* strtrimc(char* withspace){
+    int num=0;
+    char* nospace[strlen(withspace)];
+    for(i=0;i<strlen(withspace);i++){
+        if(withspace[i]!=' '){
+            strncpy(&nospace[num],&withspace[i],1);
+            num++;
+        }
+    }
+    return nospace;
+}
 void Dealdiction(){
     FILE *mapping=fopen(ztob,"r");
     while(!feof(mapping)){//deal with map
