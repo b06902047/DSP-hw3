@@ -12,10 +12,8 @@
 
 using namespace std;
 
-int order=2;
-string problem;
-Vocab voc;
-Ngram lm(voc,order);
+
+
 
 map<string,vector<string>> dict;
 void Dealdiction(char* ztob){
@@ -33,7 +31,7 @@ void Dealdiction(char* ztob){
     }
     mapping.close();
 }
-double probab(const char* word1,const char* word2){//P(word2|word1)
+double probab(const char* word1,const char* word2,Ngram &lm,Vocab &voc){//P(word2|word1)
     VocabIndex wid1 = voc.getIndex(word1);
     if(wid1 == Vocab_None) 
         wid1= voc.getIndex(Vocab_Unknown);
@@ -52,6 +50,8 @@ int main(int argc, char *argv[]){
     strcpy(ztob, argv[4]);
     strcpy(lmodel, argv[6]);
     order=stoi(argv[8]);
+    Vocab voc;
+    Ngram lm(voc,order);
     File lmFile( lmodel, "r" );
     lm.read(lmFile);
     lmFile.close();
@@ -67,7 +67,7 @@ int main(int argc, char *argv[]){
         string word;
         word.assign(line.begin(),line.begin()+2);
         for(int i=0;i<dict[word].size();i++){
-            viter[i][0]=probab("<s>",dict[word][i].c_str());//P(第0個字｜<s>)
+            viter[i][0]=probab("<s>",dict[word][i].c_str(),lm,voc);//P(第0個字｜<s>)
         }
     for(int i=1;i<line.size()/2;i++){//橫軸
             string prev=word;
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]){
                 double maxprob=-1000000000;
                 int maxdex=-1;
                 for(int k=0;k<dict[prev].size();k++){
-                    double now=probab(dict[prev][k].c_str(),dict[word][j].c_str())+viter[k][i-1];//problem
+                    double now=probab(dict[prev][k].c_str(),dict[word][j].c_str(),lm,voc)+viter[k][i-1];//problem
                     if(now>maxprob){
                         maxprob=now;
                         maxdex=k;
@@ -91,7 +91,7 @@ int main(int argc, char *argv[]){
         string prev=word;
         double maxprob=-1000000000;int maxdex=-1;
         for(int i=0;i<dict[prev].size();i++){
-            double now=probab(dict[prev][i].c_str(),"</s>")+viter[i][line.size()/2-1];
+            double now=probab(dict[prev][i].c_str(),"</s>",lm,voc)+viter[i][line.size()/2-1];
             if(now>maxprob){
                 maxprob=now;
                 maxdex=i;
@@ -99,7 +99,7 @@ int main(int argc, char *argv[]){
         }
         vector<string> answer;
         int index=maxdex;
-    /*for(int i=line.size()/2-1;i>=0;i--){
+    for(int i=line.size()/2-1;i>=0;i--){
             string help;
             help.assign(line.begin()+2*i,line.begin()+2*i+2);
             answer.push_back(dict[help][index]);
@@ -109,7 +109,7 @@ int main(int argc, char *argv[]){
         for(int i=line.size()/2-1;i>=0;i--)
             cout << answer[i] <<" ";
         cout << "</s>"<<endl;
-   */ }
+    }
     
     return 0;
 }
