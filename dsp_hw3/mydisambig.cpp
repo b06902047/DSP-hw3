@@ -12,16 +12,13 @@
 
 using namespace std;
 
-char seg_file[256];
-char ztob[256];
-char lmodel[256];
 int order=2;
 string problem;
 Vocab voc;
 Ngram lm(voc,order);
 
 map<string,vector<string>> dict;
-void Dealdiction(){
+void Dealdiction(char* ztob){
     ifstream mapping;
     mapping.open(ztob);
     string line;
@@ -47,31 +44,36 @@ double probab(const char* word1,const char* word2){//P(word2|word1)
     return lm.wordProb(wid2, context);
 }
 int main(int argc, char *argv[]){
-	strcpy(seg_file, argv[2]);
-	strcpy(ztob, argv[4]);
-	strcpy(lmodel, argv[6]);
-	order=stoi(argv[8]);
+    printf("0\n");
+    char seg_file[256];
+    char ztob[256];
+    char lmodel[256];
+    strcpy(seg_file, argv[2]);
+    strcpy(ztob, argv[4]);
+    strcpy(lmodel, argv[6]);
+    order=stoi(argv[8]);
     File lmFile( lmodel, "r" );
     lm.read(lmFile);
     lmFile.close();
-    Dealdiction();
+    Dealdiction(ztob);
     ifstream test_data;
     test_data.open(seg_file);//deal with each line
     string line;
     while(getline(test_data,line)){//處理每一行
-        double viter[3000][3000]={{0.0}};
+        double viter[3000][3000]={{0}};
         int trace[3000][3000]={{0}};
-        auto itor = remove_if(line.begin(), line.end(), ::isspace);
+        auto itor = remove(line.begin(), line.end(), ' ');
         line.erase(itor, line.end());//去除空白
         string word;
         word.assign(line.begin(),line.begin()+2);
-        for(int i=0;i<dict[word].size();i++)
+        for(int i=0;i<dict[word].size();i++){
             viter[i][0]=probab("<s>",dict[word][i].c_str());//P(第0個字｜<s>)
-        for(int i=1;i<line.size()/2;i++){//橫軸
+        }
+    for(int i=1;i<line.size()/2;i++){//橫軸
             string prev=word;
             word.assign(line.begin()+2*i,line.begin()+2*i+2);
             for(int j=0;j<dict[word].size();j++){//縱軸
-                double maxprob=-1;
+                double maxprob=-1000000000;
                 int maxdex=-1;
                 for(int k=0;k<dict[prev].size();k++){
                     double now=probab(dict[prev][k].c_str(),dict[word][j].c_str())+viter[k][i-1];//problem
@@ -82,10 +84,12 @@ int main(int argc, char *argv[]){
                 }
                 viter[j][i]=maxprob;
                 trace[j][i]=maxdex;
+                cout <<" "<<endl;
             }
         }
+        test_data.close();
         string prev=word;
-        double maxprob=-1;int maxdex=-1;
+        double maxprob=-1000000000;int maxdex=-1;
         for(int i=0;i<dict[prev].size();i++){
             double now=probab(dict[prev][i].c_str(),"</s>")+viter[i][line.size()/2-1];
             if(now>maxprob){
@@ -95,7 +99,7 @@ int main(int argc, char *argv[]){
         }
         vector<string> answer;
         int index=maxdex;
-        for(int i=line.size()/2-1;i>=0;i--){
+    /*for(int i=line.size()/2-1;i>=0;i--){
             string help;
             help.assign(line.begin()+2*i,line.begin()+2*i+2);
             answer.push_back(dict[help][index]);
@@ -105,9 +109,7 @@ int main(int argc, char *argv[]){
         for(int i=line.size()/2-1;i>=0;i--)
             cout << answer[i] <<" ";
         cout << "</s>"<<endl;
-    }
-	
-	return 0;
+   */ }
+    
+    return 0;
 }
-
-
